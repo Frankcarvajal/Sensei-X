@@ -20,21 +20,23 @@ export default class QuestionPage extends React.Component {
                 throw new Error(res.statusText);
             }
             return res.json();
-        }).then(questions =>
+        }).then(questions => {
+            console.log(questions.langs[0].jap);
             this.setState({
-                questions
+                questions: [questions.langs[0].jap]
             })
+        }
         );
     }
 
     render() {
-        const questions = this.state.questions.map((question, index) =>
-            <li key={index}>{question}</li>
-        );
+        // const questions = this.state.questions.map((question, index) =>
+        //     <li key={index}>{question}</li>
+        // );
 
         return (
             <ul className="question-list">
-                {questions}
+                {this.state.questions}
             </ul>
         );
     }

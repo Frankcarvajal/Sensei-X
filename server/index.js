@@ -1,8 +1,12 @@
 const path = require('path');
 const express = require('express');
+const mongoose = require('mongoose');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
+require("dotenv").config()
+
+mongoose.Promise = global.Promise;
 
 let secret = {
   CLIENT_ID: process.env.CLIENT_ID,
@@ -14,6 +18,9 @@ if(process.env.NODE_ENV != 'production') {
 }
 
 const app = express();
+
+const {PORT, DATABASE_URL} = require('./config');
+const {Lang} = require('./models');
 
 const database = {
 };
@@ -82,7 +89,23 @@ app.get('/api/me',
 
 app.get('/api/questions',
     passport.authenticate('bearer', {session: false}),
-    (req, res) => res.json(['Question 1', 'Question 2'])
+    (req, res) => {
+        Lang.find()
+        .exec()
+        .then(langs => {
+            console.log(langs);
+            res.json({
+                langs: langs.map(
+                    (lang) => lang.apiRepr())
+            });
+            
+        })
+        .catch(
+            err => {
+                console.error(err);
+                res.status(500).json({message: 'Internal server error'});
+            });
+    }
 );
 
 // Serve the built client
@@ -96,11 +119,22 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 });
 
 let server;
-function runServer(port=3001) {
+function runServer(databaseUrl=DATABASE_URL,port=3001) {
     return new Promise((resolve, reject) => {
-        server = app.listen(port, () => {
-            resolve();
-        }).on('error', reject);
+        mongoose.connect(databaseUrl, err => {
+            if (err) {
+                return reject(err);
+            }
+
+            server = app.listen(port, () => {
+                console.log(`Your app is listening on port ${port}`);
+                resolve();
+            })
+            .on('error', err => {
+                mongoose.disconnect();
+                reject(err);
+            });
+        });        
     });
 }
 
