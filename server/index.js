@@ -122,7 +122,7 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 
 let server;
 function runServer(port=3001) {
-    console.log('CONNECTING TO DB WITH URL:', databaseUrl);
+    // console.log('CONNECTING TO DB WITH URL:', databaseUrl);
     return new Promise((resolve, reject) => {
         mongoose.connect(DATABASE_URL, err => {
             if (err) {
