@@ -20,6 +20,8 @@ if(process.env.NODE_ENV != 'production') {
 const app = express();
 
 const {PORT, DATABASE_URL} = require('./config');
+console.log('DATABASE_URL', DATABASE_URL)
+
 const {Lang} = require('./models');
 
 const database = {
@@ -120,7 +122,7 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 
 let server;
 function runServer(databaseUrl=DATABASE_URL,port=3001) {
-    console.log('USING DATABASE URL:', databaseUrl);
+    console.log('CONNECTING TO DB WITH URL:', databaseUrl);
     return new Promise((resolve, reject) => {
         mongoose.connect(databaseUrl, err => {
             if (err) {
