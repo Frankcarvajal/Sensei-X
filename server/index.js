@@ -20,8 +20,7 @@ if(process.env.NODE_ENV != 'production') {
 const app = express();
 
 const {PORT, DATABASE_URL} = require('./config');
-
-const {Lang} = require('./models');
+const {Lang, User} = require('./models');
 
 const database = {
 };
@@ -39,7 +38,20 @@ passport.use(
         // google id, and the access token
         // Job 2: Update this callback to either update or create the user
         // so it contains the correct access token
-        const user = database[accessToken] = {
+        User
+            .create({
+            name: profile.displayName,
+            email: profile.emails.value,
+            githubId: profile.username,
+            githubToken: accessToken
+            })
+            .then(
+            restaurant => res.status(201).json(User.apiRepr()))
+            .catch(err => {
+            console.error(err);
+            res.status(500).json({message: 'Internal server error'});
+            });        
+            const user = database[accessToken] = {
             googleId: profile.id,
             accessToken: accessToken
         };
@@ -120,9 +132,9 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 });
 
 let server;
-function runServer(port=3001) {
+function runServer(databaseUrl=DATABASE_URL,port=3001) {
     return new Promise((resolve, reject) => {
-        mongoose.connect(DATABASE_URL, err => {
+        mongoose.connect(databaseUrl, err => {
             if (err) {
                 return reject(err);
             }

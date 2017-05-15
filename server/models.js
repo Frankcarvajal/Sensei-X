@@ -7,9 +7,15 @@ const langSchema = mongoose.Schema({
     level: Number
 })
 
+const userSchema = mongoose.Schema({
+    name: {type: String, required: false}, 
+    email: {type: String, required: false},
+    githubId: {type: String, required: true},
+    githubToken: {type:String, required: true}
+})
+
 
 langSchema.methods.apiRepr = function() {
-
   return {
     id: this._id,
     jap: this.jap,
@@ -18,7 +24,14 @@ langSchema.methods.apiRepr = function() {
   };
 }
 
+userSchema.methods.apiRepr = function() {
+  return {
+    githubId: this.githubId,
+    gitHubToken: this.githubToken,
+  };
+}
 
 const Lang = mongoose.model('Lang', langSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = {Lang};
+module.exports = {Lang, User};
