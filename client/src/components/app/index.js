@@ -6,12 +6,6 @@ import SplashPage from '../splash-page';
 import {createUser} from './actions';
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentUser: null
-        };
-    }
 
     componentDidMount() {
         // Job 4: Redux-ify all of the state and fetch calls to async actions.
@@ -37,10 +31,9 @@ class App extends React.Component {
     }
 
     render() {
-        if (!this.state.currentUser) {
+        if (!this.props.currentUser) {
             return <SplashPage />;
         }
-
         return <QuestionPage />;
     }
 }
@@ -50,4 +43,4 @@ const mapStateToProps = (state) => ({
     currentUser: state.app.currentUser
 })
 
-export default connect((mapStateToProps)(App));
+export default connect(mapStateToProps)(App);
