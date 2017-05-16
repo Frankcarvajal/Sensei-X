@@ -143,6 +143,34 @@ app.get('/api/questions',
     }
 );
 
+// API endpoints
+app.get('/api/user/:gitHubId',
+    passport.authenticate('bearer', {session: false}),
+    (req, res) => {
+        User.find({gitHubId: req.params.gitHubId})
+        .exec()
+        .then(user => {
+            if(user) {
+                res.json({
+                users: users.map(
+                    (user) => user.apiRepr())
+                });
+            }
+            return {
+                    name: null,
+                    gitHubHandle: null,
+                    githubId: null,
+                    points: 0
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({message: 'Internal server error'});
+        });
+    }
+);
+
+
 // Serve the built client
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
