@@ -10,8 +10,8 @@ const langSchema = mongoose.Schema({
 const userSchema = mongoose.Schema({
     name: {type: String, required: false}, 
     email: {type: String, required: false},
-    githubId: {type: String, required: true},
-    githubToken: {type:String, required: true}
+    gitHubId: {type: String, required: true},
+    gitHubToken: {type:String, required: true}
 })
 
 
