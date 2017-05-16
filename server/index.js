@@ -6,11 +6,14 @@ const GitHubStrategy = require('passport-github').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 require("dotenv").config()
 
+// Mongoose internally uses a promise-like object,
+// but its better to make Mongoose use built in es6 promises
 mongoose.Promise = global.Promise;
 
 let secret = {
   CLIENT_ID: process.env.CLIENT_ID,
-  CLIENT_SECRET: process.env.CLIENT_SECRET
+  CLIENT_SECRET: process.env.CLIENT_SECRET,
+  DATABASE_URL: process.env.DATABASE_URL
 }
 
 if(process.env.NODE_ENV != 'production') {
@@ -22,11 +25,9 @@ const app = express();
 const {PORT, DATABASE_URL} = require('./config');
 const {Lang, User} = require('./models');
 
-const database = {
-};
-
 app.use(passport.initialize());
 
+// Passport middleware set-up
 passport.use(
     new GitHubStrategy({
         clientID:  secret.CLIENT_ID,
@@ -34,55 +35,42 @@ passport.use(
         callbackURL: `/api/auth/github/callback`
     },
     (accessToken, refreshToken, profile, cb) => {
-        // Job 1: Set up Mongo/Mongoose, create a User model which store the
-        // google id, and the access token
-        // Job 2: Update this callback to either update or create the user
-        // so it contains the correct access token
         return User
             .findOne({gitHubId: profile.id})
             .exec()
             .then(user => {
-                if(user) {
-                    return User.findByIdAndUpdate(user._id, {$set: {gitHubToken: accessToken}} )
+                if (user) {
+                    return User.findByIdAndUpdate(user._id, {$set: {accessToken}}, {new: true})
                 }
                 return User.create({
                     gitHubId: profile.id,
-                    gitHubToken: accessToken
+                    accessToken,
+                    name: profile.displayName,
+                    gitHubHandle: profile.username,
                 })
             })
-            .then(user => {
-                cb(null, {gitHubId: user.gitHubId, gitHubToken: user.gitHubToken})
-            })
-            .catch(err => {
-                console.error(err);
-            })
+            .then(user => cb(null, {gitHubId: user.gitHubId, accessToken: user.accessToken}))
+            .catch(err => console.error(err))
     }
 ));
 
 passport.use(
     new BearerStrategy(
         (token, done) => {
-            // Job 3: Update this callback to try to find a user with a
-            // matching access token.  If they exist, let em in, if not,
-            // don't. 
-            return User.findOne({gitHubToken: token})
+            return User.findOne({accessToken: token})
                 .exec()
                 .then((user) => {
-                    if(!user) {
+                    if (!user) {
                         return done(null, false);
                     }
-                    return done(null, {gitHubId: user.gitHubId, gitHubToken: user.gitHubToken})
+                    return done(null, {gitHubId: user.gitHubId, accessToken: user.accessToken});
                 })
-                .catch(err => console.error(err));
-
-            // if (!(token in database)) {
-            //     return done(null, false);
-            // }
-            // return done(null, database[token]);
+                .catch(err => console.error(err))
         }
     )
 );
 
+// Authentication endpoints
 app.get('/api/auth/github',
     passport.authenticate('github', {scope: ['profile']}));
 
@@ -110,13 +98,13 @@ app.get('/api/me',
     })
 );
 
+// API endpoints
 app.get('/api/questions',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
         Lang.find()
         .exec()
         .then(langs => {
-            console.log(langs);
             res.json({
                 langs: langs.map(
                     (lang) => lang.apiRepr())
@@ -142,32 +130,31 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 });
 
 let server;
-function runServer(databaseUrl=DATABASE_URL, port=3001) {
-    return new Promise((resolve, reject) => {
-        mongoose.connect(databaseUrl, err => {
-            if (err) {
-                return reject(err);
-            }
-
-            server = app.listen(port, () => {
-                console.log(`Your app is listening on port ${port}`);
-                resolve();
-            })
-            .on('error', err => {
-                mongoose.disconnect();
-                reject(err);
-            });
-        });        
-    });
+function runServer(port=3001) {
+	return new Promise((resolve, reject) => {
+		mongoose.connect(DATABASE_URL, err => {
+			if (err) {
+				return reject(err);
+			}
+			server = app.listen(port, () => {
+				resolve();
+			})
+			.on('error', err => {
+				reject(err);
+			});
+		});	
+	});
 }
 
 function closeServer() {
-    return new Promise((resolve, reject) => {
-        server.close(err => {
-            if (err) {
-                return reject(err);
-            }
-            resolve();
+    return mongoose.disconnect().then(() => {
+        return new Promise((resolve, reject) => {
+            server.close(err => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve();
+            });
         });
     });
 }

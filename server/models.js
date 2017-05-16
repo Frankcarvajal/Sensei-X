@@ -10,8 +10,9 @@ const langSchema = mongoose.Schema({
 const userSchema = mongoose.Schema({
     name: {type: String, required: false}, 
     email: {type: String, required: false},
+    gitHubHandle: {type: String, required: false},
     gitHubId: {type: String, required: true},
-    gitHubToken: {type:String, required: true}
+    accessToken: {type:String, required: true}
 })
 
 
@@ -27,7 +28,7 @@ langSchema.methods.apiRepr = function() {
 userSchema.methods.apiRepr = function() {
   return {
     githubId: this.githubId,
-    gitHubToken: this.githubToken,
+    accessToken
   };
 }
 
