@@ -99,6 +99,30 @@ app.get('/api/me',
 );
 
 // API endpoints
+app.get('/api/questions/:maxResults',
+    passport.authenticate('bearer', {session: true}),
+    (req, res) => {
+        Lang.find({
+            "level":1,
+        })
+        .limit(req.params.maxResults)
+        .exec()
+        .then(langs => {
+            res.json({
+                langs: langs.map(
+                    (lang) => lang.apiRepr())
+            });
+            
+        })
+        .catch(
+            err => {
+                console.error(err);
+                res.status(500).json({message: 'Internal server error'});
+            });
+    }
+);
+
+// API endpoints
 app.get('/api/questions',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
