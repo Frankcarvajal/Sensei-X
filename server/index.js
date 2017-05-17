@@ -63,7 +63,7 @@ passport.use(
                     if (!user) {
                         return done(null, false);
                     }
-                    return done(null, {gitHubId: user.gitHubId, accessToken: user.accessToken, gitHubHandle: user.gitHubHandle, points: user.points, name: user.name});
+                    return done(null, user);
                 })
                 .catch(err => console.error(err))
         }
