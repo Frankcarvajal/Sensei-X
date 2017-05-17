@@ -100,12 +100,10 @@ app.get('/api/me',
 
 // API endpoints
 app.get('/api/questions/:maxResults',
-    passport.authenticate('bearer', {session: true}),
+    passport.authenticate('bearer', {session: false}),
     (req, res) => {
-        Lang.find({
-            "level":1,
-        })
-        .limit(req.params.maxResults)
+        Lang.find({"level":1})
+        .limit(parseInt(req.params.maxResults))
         .exec()
         .then(langs => {
             res.json({
@@ -151,16 +149,13 @@ app.get('/api/user/:gitHubId',
         .exec()
         .then(user => {
             if(user) {
-                res.json({
+                return res.json({
                 users: users.map(
                     (user) => user.apiRepr())
                 });
             }
             return {
-                    name: null,
-                    gitHubHandle: null,
-                    githubId: null,
-                    points: 0
+            res.status(400).json({message: 'User Not Found.'});
             }
         })
         .catch(err => {
