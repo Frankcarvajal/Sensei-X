@@ -63,7 +63,7 @@ passport.use(
                     if (!user) {
                         return done(null, false);
                     }
-                    return done(null, {gitHubId: user.gitHubId, accessToken: user.accessToken});
+                    return done(null, {gitHubId: user.gitHubId, accessToken: user.accessToken, gitHubHandle: user.gitHubHandle, points: user.points, name: user.name});
                 })
                 .catch(err => console.error(err))
         }
@@ -94,7 +94,10 @@ app.get('/api/auth/logout', (req, res) => {
 app.get('/api/me',
     passport.authenticate('bearer', {session: false}),
     (req, res) => res.json({
-        gitHubId: req.user.gitHubId
+        gitHubId: req.user.gitHubId,
+        name: req.user.name,
+        gitHubHandle: req.user.gitHubHandle,
+        points: req.user.points
     })
 );
 
