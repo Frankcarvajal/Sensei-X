@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
 import Logout from '../logout';
-// import UserData from '../userdata';
+import UserData from '../userdata';
 import Header from '../header'
 import './index.css';
 
@@ -11,6 +11,7 @@ export default class QuestionPage extends React.Component {
         this.state = {
             questions: [],
             answers: []
+
         };
     }
 
@@ -53,12 +54,8 @@ export default class QuestionPage extends React.Component {
         return (
             <ul className="question-list">
             <Header />
-                <p>Username</p>
-                <ul className="userscores">
-                    <li>Score </li>
-                    <li>Correct </li>
-                    <li>Wrong </li>
-                </ul>
+                <UserData />
+                
                 <p>Question</p>
                 <ul>
                     {questions}

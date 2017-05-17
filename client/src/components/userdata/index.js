@@ -1,17 +1,20 @@
 import React from 'react';
 import './index.css';
+import * as Cookies from 'js-cookie';
 
 export default class UserData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: []
+            gitHubHandle: null,
+            points: null,
+            name: null,
         };
     }
 
     componentDidMount() {
         const accessToken = Cookies.get('accessToken');
-        fetch('/api/user/:gitHubId', {
+        fetch('/api/me', {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
@@ -21,23 +24,26 @@ export default class UserData extends React.Component {
             }
             return res.json();
         }).then((user) => {
+            console.log(user);
             this.setState({
-                user
+                gitHubHandle: user.gitHubHandle,
+                points: user.points,
+                name: user.name
             })
             }
         );
     }
 
     render() {
-        const user = this.state.user.map((user, index) =>
-            <li key={index}>{user}</li>
-        );
+        let gitHubHandle = this.state.gitHubHandle;
+        let points = this.state.points;
+        let name = this.state.name;
 
         return (
             <ul className="user-list">
-                <p>{user}</p>
+                <p>{gitHubHandle}<span>{name}</span></p>
                 <ul className="userscores">
-                    <li>Score </li>
+                    <li>Score: {points}</li>
                     <li>Correct </li>
                     <li>Wrong </li>
                 </ul>
