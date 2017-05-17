@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app';
-import './index.css';
+import './css/main.css';
+import './css/normalize.css';
+import './css/skeleton.css';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';

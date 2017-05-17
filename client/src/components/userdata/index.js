@@ -1,4 +1,5 @@
 import React from 'react';
+import './index.css';
 
 export default class UserData extends React.Component {
     constructor(props) {
@@ -10,7 +11,7 @@ export default class UserData extends React.Component {
 
     componentDidMount() {
         const accessToken = Cookies.get('accessToken');
-        fetch('/api/user/', {
+        fetch('/api/user/:gitHubId', {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
@@ -28,14 +29,14 @@ export default class UserData extends React.Component {
     }
 
     render() {
-        const user = this.state.user.map((question, index) =>
-            <li key={index}>{question}</li>
+        const user = this.state.user.map((user, index) =>
+            <li key={index}>{user}</li>
         );
 
         return (
-            <ul className="question-list">
-                <p>Username</p>
-                <ul>
+            <ul className="user-list">
+                <p>{user}</p>
+                <ul className="userscores">
                     <li>Score </li>
                     <li>Correct </li>
                     <li>Wrong </li>

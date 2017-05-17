@@ -2,6 +2,8 @@ import React from 'react';
 import * as Cookies from 'js-cookie';
 import Logout from '../logout';
 // import UserData from '../userdata';
+import Header from '../header'
+import './index.css';
 
 export default class QuestionPage extends React.Component {
     constructor(props) {
@@ -39,7 +41,7 @@ export default class QuestionPage extends React.Component {
         );
     }
 
-// render UserData when component ready
+// 1. render UserData when component ready
     render() {
         const questions = this.state.questions.map((question, index) =>
             <li key={index}>{question}</li>
@@ -50,26 +52,23 @@ export default class QuestionPage extends React.Component {
 
         return (
             <ul className="question-list">
-                <h1>Sensei X</h1>
-                <h4>Stop</h4>
-                <Logout />
+            <Header />
                 <p>Username</p>
-                <ul>
+                <ul className="userscores">
                     <li>Score </li>
                     <li>Correct </li>
                     <li>Wrong </li>
                 </ul>
                 <p>Question</p>
-                <ul>{
-                    questions}
+                <ul>
+                    {questions}
                     <p>Matching Answers</p>
                     {answers}
 
                 </ul>
                 <h3>Input Answer</h3>
                 <form>
-                    Answer:
-                    <input type="text" name="firstname" placeholder="Enter translation" />
+                    <input type="text" name="answer" placeholder="Enter translation" />
                     <input type="submit" value="Submit" />
                 </form>
             </ul>
