@@ -12,7 +12,8 @@ const userSchema = mongoose.Schema({
     email: {type: String, required: false},
     gitHubHandle: {type: String, required: false},
     gitHubId: {type: String, required: true},
-    accessToken: {type:String, required: true}
+    accessToken: {type:String, required: true},
+    points: {type:Number, required: false}
 })
 
 
@@ -27,8 +28,11 @@ langSchema.methods.apiRepr = function() {
 
 userSchema.methods.apiRepr = function() {
   return {
+    name: this.name,
+    gitHubHandle: this.gitHubHandle,
     githubId: this.githubId,
-    accessToken
+    accessToken: this.accessToken,
+    points: this.points
   };
 }
 

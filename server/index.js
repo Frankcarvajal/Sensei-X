@@ -99,6 +99,28 @@ app.get('/api/me',
 );
 
 // API endpoints
+app.get('/api/questions/:maxResults',
+    passport.authenticate('bearer', {session: false}),
+    (req, res) => {
+        Lang.find({"level":1})
+        .limit(parseInt(req.params.maxResults))
+        .exec()
+        .then(langs => {
+            res.json({
+                langs: langs.map(
+                    (lang) => lang.apiRepr())
+            });
+            
+        })
+        .catch(
+            err => {
+                console.error(err);
+                res.status(500).json({message: 'Internal server error'});
+            });
+    }
+);
+
+// API endpoints
 app.get('/api/questions',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
@@ -118,6 +140,31 @@ app.get('/api/questions',
             });
     }
 );
+
+// API endpoints
+app.get('/api/user/:gitHubId',
+    passport.authenticate('bearer', {session: false}),
+    (req, res) => {
+        User.find({gitHubId: req.params.gitHubId})
+        .exec()
+        .then(user => {
+            if(user) {
+                return res.json({
+                users: users.map(
+                    (user) => user.apiRepr())
+                });
+            }
+            return {
+            res.status(400).json({message: 'User Not Found.'});
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({message: 'Internal server error'});
+        });
+    }
+);
+
 
 // Serve the built client
 app.use(express.static(path.resolve(__dirname, '../client/build')));
