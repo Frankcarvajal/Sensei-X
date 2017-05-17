@@ -31,7 +31,6 @@ userSchema.methods.apiRepr = function() {
     name: this.name,
     gitHubHandle: this.gitHubHandle,
     githubId: this.githubId,
-    accessToken: this.accessToken,
     points: this.points
   };
 }
