@@ -1,17 +1,17 @@
 import React from 'react';
-import * as Cookies from 'js-cookie';
+import './index.css';
 
-export default class QuestionPage extends React.Component {
+export default class UserData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            questions: []
+            user: []
         };
     }
 
     componentDidMount() {
         const accessToken = Cookies.get('accessToken');
-        fetch('/api/questions', {
+        fetch('/api/user/:gitHubId', {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
@@ -20,23 +20,27 @@ export default class QuestionPage extends React.Component {
                 throw new Error(res.statusText);
             }
             return res.json();
-        }).then(questions => {
-            console.log(questions.langs[0].jap);
+        }).then((user) => {
             this.setState({
-                questions: [questions.langs[0].jap]
+                user
             })
-        }
+            }
         );
     }
 
     render() {
-        // const questions = this.state.questions.map((question, index) =>
-        //     <li key={index}>{question}</li>
-        // );
+        const user = this.state.user.map((user, index) =>
+            <li key={index}>{user}</li>
+        );
 
         return (
-            <ul className="question-list">
-                {this.state.questions}
+            <ul className="user-list">
+                <p>{user}</p>
+                <ul className="userscores">
+                    <li>Score </li>
+                    <li>Correct </li>
+                    <li>Wrong </li>
+                </ul>
             </ul>
         );
     }
