@@ -142,21 +142,19 @@ app.get('/api/questions',
 );
 
 // API endpoints
-app.get('/api/user/:gitHubId',
+app.get('/api/user/:Id',
     passport.authenticate('bearer', {session: false}),
     (req, res) => {
-        User.find({gitHubId: req.params.gitHubId})
+        User.find({_id: req.params.Id})
         .exec()
-        .then(user => {
-            if(user) {
+        .then(users => {
+            if(users) {
                 return res.json({
                 users: users.map(
                     (user) => user.apiRepr())
                 });
             }
-            return {
-            res.status(400).json({message: 'User Not Found.'});
-            }
+            return res.status(400).json({message: 'User Not Found.'});
         })
         .catch(err => {
             console.error(err);
