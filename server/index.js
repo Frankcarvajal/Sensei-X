@@ -154,9 +154,9 @@ app.get('/api/user/:gitHubId',
                     (user) => user.apiRepr())
                 });
             }
-            return {
-            res.status(400).json({message: 'User Not Found.'});
-            }
+            return 
+            // res.status(400).json({message: 'User Not Found.'});
+            
         })
         .catch(err => {
             console.error(err);
