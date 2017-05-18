@@ -10,12 +10,13 @@ export default class QuestionPage extends React.Component {
         super(props);
         this.state = {
             questions: [],
-            answers: []
+            answers: [],
+            currentQIndex: 3
 
         };
     }
 
-    componentDidMount() {
+    componentDidMount(state) {
         const accessToken = Cookies.get('accessToken');
         fetch('/api/questions', {
                 headers: {
@@ -26,7 +27,7 @@ export default class QuestionPage extends React.Component {
                 throw new Error(res.statusText);
             }
             return res.json();
-        }).then((questions) => {
+        }).then((questions, state) => {
             console.log(questions.langs.length);
             let inQuestions = [];
             let inAnswers = [];
@@ -35,6 +36,7 @@ export default class QuestionPage extends React.Component {
                 inAnswers.push(questions.langs[i].eng)
             }
             this.setState({
+                ...state,
                 questions: inQuestions,
                 answers: inAnswers
             })
@@ -50,7 +52,8 @@ export default class QuestionPage extends React.Component {
         const answers = this.state.answers.map((answer, index) => 
             <li key={index}>{answer}</li>
         );
-
+        console.log('thequestion :', this.state.questions[this.state.currentQIndex]);
+        const currentQ= this.state.questions[this.state.currentQIndex];
         return (
             <ul className="question-list">
             <Header />
@@ -61,7 +64,7 @@ export default class QuestionPage extends React.Component {
                     {questions}
                     <p>Matching Answers</p>
                     {answers}
-
+                    <h3>{currentQ}</h3>
                 </ul>
                 <h3>Input Answer</h3>
                 <form>
