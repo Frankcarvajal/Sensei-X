@@ -93,12 +93,13 @@ app.get('/api/auth/logout', (req, res) => {
 
 app.get('/api/me',
     passport.authenticate('bearer', {session: false}),
-    (req, res) => res.json({
+    (req, res) => {
+        return res.json({
         gitHubId: req.user.gitHubId,
         name: req.user.name,
         gitHubHandle: req.user.gitHubHandle,
         points: req.user.points
-    })
+    })}
 );
 
 // API endpoints
