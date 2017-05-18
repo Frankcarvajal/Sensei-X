@@ -1,9 +1,19 @@
 .loginlink {
-    position: absolute;
     top: 10px;
     right: 10px;
     text-decoration: none;
     cursor: pointer;
     font-weight: bold;
     color: #bf0404;
+    padding-left: 35%;
+}
+
+.what {
+    text-align: center;
+    font-size: 30px;
+}
+
+.logo {
+    padding-bottom: 25px;
+    padding-left: 25%;
 }
