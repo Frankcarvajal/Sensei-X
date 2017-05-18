@@ -1,5 +1,7 @@
 .logo {
-    width: 150px;
+    width: 400px;
+    padding-top: 25px;
+    padding-left: 25px;
     display: inline-block;
 }
 

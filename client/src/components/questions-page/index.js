@@ -6,6 +6,7 @@ import Header from '../header'
 import './index.css';
 import {connect} from 'react-redux';
 import {fetchQestions, fetchAnswers, fetchCurrentQIndex} from './actions';
+import GuessForm from '../guess-form';
 
 export class QuestionPage extends React.Component {
     constructor(props) {
@@ -66,11 +67,7 @@ export class QuestionPage extends React.Component {
                     {answers}
                     <h3>{currentQ}</h3>
                 </ul>
-                <h3>Input Answer</h3>
-                <form>
-                    <input type="text" name="answer" placeholder="Enter translation" />
-                    <input type="submit" value="Submit" />
-                </form>
+                <GuessForm />
             </ul>
         );
     }
