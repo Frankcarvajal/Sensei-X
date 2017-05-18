@@ -4,15 +4,16 @@ import Logout from '../logout';
 import UserData from '../userdata';
 import Header from '../header'
 import './index.css';
+import {connect} from 'react-redux';
+import {fetchQestions, fetchAnswers, fetchCurrentQIndex} from './actions';
 
-export default class QuestionPage extends React.Component {
+export class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             questions: [],
             answers: [],
             currentQIndex: 3
-
         };
     }
 
@@ -44,7 +45,6 @@ export default class QuestionPage extends React.Component {
         );
     }
 
-// 1. render UserData when component ready
     render() {
         const questions = this.state.questions.map((question, index) =>
             <li key={index}>{question}</li>
@@ -75,3 +75,11 @@ export default class QuestionPage extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    questions: state.questions,
+    answers: state.answers,
+    currentQIndex: state.currentQIndex
+})
+
+export default connect(mapStateToProps)(QuestionPage);
