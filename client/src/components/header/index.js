@@ -4,7 +4,7 @@ import './index.css';
 import '../../css/main.css';
 import '../../css/normalize.css';
 import '../../css/skeleton.css';
-import senseiLogo from './images/senseix.png';
+import senseiLogo from './images/sensei.png';
 import Logout from '../logout';
 
 export function Header (props) {

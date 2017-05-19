@@ -1,5 +1,5 @@
 import React from 'react';
-import senseiLogo from './images/senseix.png';
+import senseiLogo from './images/sensei.png';
 import './index.css';
 
 export default function SplashPage() {
