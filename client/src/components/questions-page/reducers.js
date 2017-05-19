@@ -30,23 +30,23 @@ const dataFromAPI = (state = initialState, action) => {
         answers: inAnswers,
         currentQIndex: action.data.currentQIndex
       }
-    
-    case 'FETCH_QUESTIONS':
-        return {
-            ...state,
-            questions: action.questions
-        }
-
-    case 'FETCH_ANSWERS':
-        return {
-            ...state,
-            answers: action.answers
-        }
 
     case 'FETCH_CURRENT_Q_INDEX':
         return {
             ...state,
             currentQIndex: action.currentQIndex
+        }
+
+    case 'SET_CURRENT_Q_INDEX':
+        return {
+            ...state,
+            currentQIndex: action.index
+        }
+
+    case 'SET_Q_ORDER':
+        return {
+            ...state,
+            qOrder: action.qOrder
         }
 
     default: return state

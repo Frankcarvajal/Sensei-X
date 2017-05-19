@@ -1,12 +1,17 @@
 import * as Cookies from 'js-cookie';
 
-const fetchQuestions = () => ({
-    type: 'FETCH_QUESTIONS'
-})
+export const SET_CURRENT_Q_INDEX = "SET_CURRENT_Q_INDEX";
+export const setCurrentQIndex = index => ({
+    type: SET_CURRENT_Q_INDEX,
+    index
+});
 
-const fetchAnswers = () => ({
-    type: 'FETCH_ANSWERS'
-})
+export const SET_Q_ORDER = "SET_Q_ORDER";
+export const setQOrder = qOrder => ({
+    type: SET_Q_ORDER,
+    qOrder
+});
+
 
 const fetchCurrentQIndex = () => ({
     type: 'FETCH_CURRENT_Q_INDEX'
