@@ -1,8 +1,9 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import './index.css';
 import * as Cookies from 'js-cookie';
 
-export default class UserData extends React.Component {
+export class UserData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +36,7 @@ export default class UserData extends React.Component {
 
     render() {
         let gitHubHandle = this.state.gitHubHandle;
-        let points = this.state.points;
+        let points = this.props.points;
         let name = this.state.name;
 
         return (
@@ -50,3 +51,10 @@ export default class UserData extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    points: state.dataFromAPI.points
+
+})
+
+export default connect(mapStateToProps)(UserData);

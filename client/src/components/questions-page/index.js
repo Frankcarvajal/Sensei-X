@@ -27,12 +27,11 @@ export class QuestionPage extends React.Component {
     }
 
     render() {
-        console.log(this.props)
-        const questions = this.props.questions.map((question, index) =>
-            <li key={index}>{question}</li>)
+        // const questions = this.props.questions.map((question, index) =>
+        //     <li key={index}>{question}</li>)
 
-        const answers = this.props.answers.map((answer, index) =>
-            <li key={index}>{answer}</li>)
+        // const answers = this.props.answers.map((answer, index) =>
+        //     <li key={index}>{answer}</li>)
         
 
         return (

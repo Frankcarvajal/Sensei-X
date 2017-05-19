@@ -22,6 +22,11 @@ export const setQEnqueueCut = () => ({
     type: SET_Q_ENQUEUECUT
 })
 
+export const ADD_POINT = "ADD_POINT";
+export const addPoint = () => ({
+    type: ADD_POINT
+})
+
 const fetchCurrentQIndex = () => ({
     type: 'FETCH_CURRENT_Q_INDEX'
 })

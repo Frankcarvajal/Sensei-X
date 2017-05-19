@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {makeGuess} from './actions';
-import {setQEnqueueCut, setQRequeue} from '../questions-page/actions'
+import {setQEnqueueCut, setQRequeue, addPoint} from '../questions-page/actions'
 import {checkAnswer} from '../questions-page/actions'
 import Queue from '../questions-page/queue'
 
@@ -14,6 +14,7 @@ export class GuessForm extends React.Component {
         if(value === this.props.answers[this.props.currentQIndex]) {
             this.props.dispatch(setQRequeue());
             alert('correct!');
+            this.props.dispatch(addPoint());
         }else {
             this.props.dispatch(setQEnqueueCut());
             alert('try again later!');
