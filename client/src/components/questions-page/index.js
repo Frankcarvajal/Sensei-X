@@ -47,7 +47,7 @@ export class QuestionPage extends React.Component {
 
 
     render() {
-        console.log(this.props.questions)
+        console.log(this.props)
         const questions = this.props.questions.map((question, index) =>
             <li key={index}>{question}</li>)
 
@@ -78,7 +78,8 @@ const mapStateToProps = (state, props) => ({
     answers: state.dataFromAPI.answers,
     currentQIndex: state.dataFromAPI.currentQIndex,
     loading: state.dataFromAPI.loading,
-    qOrder: state.dataFromAPI.qOrder 
+    qOrder: state.dataFromAPI.qOrder,
+    guesses: state.guessForm.guesses
 })
 
 export default connect(mapStateToProps)(QuestionPage);
