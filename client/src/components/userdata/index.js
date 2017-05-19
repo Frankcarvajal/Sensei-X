@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {addCorrect, addWrong} from './actions';
 import './index.css';
 import * as Cookies from 'js-cookie';
 
@@ -44,8 +45,8 @@ export class UserData extends React.Component {
                 <p>{gitHubHandle}<span>{name}</span></p>
                 <ul className="userscores">
                     <li>Score: {this.props.points}</li>
-                    <li>Correct {this.props.correct} </li>
-                    <li>Wrong {this.props.wrong}</li>
+                    <li>Correct: {this.props.correct} </li>
+                    <li>Wrong: {this.props.wrong}</li>
                 </ul>
             </ul>
         );
@@ -54,8 +55,8 @@ export class UserData extends React.Component {
 
 const mapStateToProps = state => ({
     points: state.dataFromAPI.points,
-    correct: state.UserData.correct,
-    wrong: state.UserData.wrong
+    correct: state.userDataReducer.correct,
+    wrong: state.userDataReducer.wrong
 
 })
 
