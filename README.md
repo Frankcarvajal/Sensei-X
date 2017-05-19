@@ -1,4 +1,4 @@
-# SenseiX
+# Sensei-X
 
 ## Overview
 
