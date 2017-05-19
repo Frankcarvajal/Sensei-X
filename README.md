@@ -2,13 +2,9 @@
 
 ## Overview
 
-### Functionality
+Learn Japanese through spaced repetition in a simple and fun way.
 
-### Get Github OAuth Credentials
-
-### For development
-
-## Front-end 
+### Front-end 
 
 Technologies: React, Redux
 Two pages: Splash page and spaced repetition page
@@ -20,7 +16,7 @@ Notifies the user whether they were correct or incorrect
 Displays a count of how many questions were answered correctly, tracking this data
 Displays Users github data & score
 
-## Back-end
+### Back-end
 
 Technologies: Node.js, Express, MongoDB, Passport, OAuth
 
