@@ -1,29 +1,56 @@
-import {FETCH_QUESTIONS, FETCH_ANSWERS, FETCH_CURRENT_Q_INDEX} from './actions';
+import * as actions from './actions';
 
 const initialState = {
     questions: [],
     answers: [],
-    currentQIndex: 0
+    currentQIndex: 0,
+    loading: false
 }
 
-export default (state=initialState, action) => {
-    if(action.type === FETCH_QUESTIONS) {
+const dataFromAPI = (state = initialState, action) => {
+  switch(action.type) {
+    case 'REQUEST_DATA':
+      return {
+        ...state,
+        loading: true
+      }
+
+    case 'RECIEVE_DATA': 
+    // console.log(action.data);
+        let inQuestions = [];
+        let inAnswers = [];
+        for (let i=0; i< action.data.length; i++){
+            inQuestions.push(action.data[i].jap);
+            inAnswers.push(action.data[i].eng)
+        }  
+      return {
+        ...state,
+        loading: false,
+        questions: inQuestions,
+        answers: inAnswers,
+        currentQIndex: action.data.currentQIndex
+      }
+    
+    case 'FETCH_QUESTIONS':
         return {
             ...state,
             questions: action.questions
         }
-    }
-    if(action.type === FETCH_ANSWERS) {
+
+    case 'FETCH_ANSWERS':
         return {
             ...state,
             answers: action.answers
         }
-    }
-    if(action.type === FETCH_CURRENT_Q_INDEX) {
+
+    case 'FETCH_CURRENT_Q_INDEX':
         return {
             ...state,
             currentQIndex: action.currentQIndex
         }
-    }
-    return state;
+
+    default: return state
+  }
 }
+
+export default dataFromAPI
