@@ -71,7 +71,7 @@ const dataFromAPI = (state = initialState, action) => {
             qOrder: q2
         }
     case 'ADD_POINT':
-        let updatedPoints = state.points+1;
+        let updatedPoints = state.points+100;
         return {
             ...state,
             points: updatedPoints

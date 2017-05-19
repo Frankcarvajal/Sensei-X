@@ -1,15 +1,16 @@
 .userscores {    
-    border-left: 3px solid #ccc;
+    border-left: 3px solid #333;
     padding-left: 7px;
     margin-left: 15px;
 }
 
 .userscores li {
     list-style: none;
+    white-space: nowrap;
+    overflow: visible;
 }
 
 .game-block {
-    padding-left: 25px;
     text-align: center;
 }
 .game-block h1 {
