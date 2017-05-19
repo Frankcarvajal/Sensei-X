@@ -24,7 +24,6 @@ export default class UserData extends React.Component {
             }
             return res.json();
         }).then((user) => {
-            console.log(user);
             this.setState({
                 gitHubHandle: user.gitHubHandle,
                 points: user.points,

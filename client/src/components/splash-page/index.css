@@ -15,12 +15,14 @@
 }
 
 .what {
-    text-align: center;
+    padding-left: 25%;
     font-size: 30px;
 }
 
-.logo {
-    padding-bottom: 25px;
+.loginlogo {
+    width: 60%;
+    padding-top: 100px;
+    padding-bottom: 50px;
     padding-left: 25%;
 }
 

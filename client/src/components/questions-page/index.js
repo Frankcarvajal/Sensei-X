@@ -5,67 +5,67 @@ import UserData from '../userdata';
 import Header from '../header'
 import './index.css';
 import {connect} from 'react-redux';
-import {fetchQestions, fetchAnswers, fetchCurrentQIndex} from './actions';
+import {fetchQestions, fetchAnswers, fetchCurrentQIndex, fetchDataFromApi, setCurrentQIndex, setQOrder} from './actions';
 import GuessForm from '../guess-form';
+import Queue from './queue';
 
 export class QuestionPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            questions: [],
-            answers: [],
-            currentQIndex: 3
-        };
-    }
 
     componentDidMount(state) {
-        const accessToken = Cookies.get('accessToken');
-        fetch('/api/questions', {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            }).then(res => {
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
-            return res.json();
-        }).then((questions, state) => {
-            console.log(questions.langs.length);
-            let inQuestions = [];
-            let inAnswers = [];
-            for (let i=0; i< questions.langs.length; i++){
-                inQuestions.push(questions.langs[i].jap);
-                inAnswers.push(questions.langs[i].eng)
-            }
-            this.setState({
-                ...state,
-                questions: inQuestions,
-                answers: inAnswers
-            })
-        }
-        );
+        this.props.dispatch(fetchDataFromApi());
     }
 
+    // componentWillReceiveProps(nextProps: Object) {
+        
+    //     console.log(this.props.questions);
+    //     let q = new Queue(this.props.questions.length);
+    //     console.log('Queue of Questions:  ', q);
+    //     this.props.dispatch(setQOrder(q));
+    //     console.log(q.first)
+    //     this.props.dispatch(setCurrentQIndex(q.first.data));
+    // }
+
+    // componentDidUpdate() {
+    //     console.log(this.props.questions);
+    //     let q = new Queue(this.props.questions.length);
+    //     console.log('Queue of Questions:  ', q);
+    //     this.props.dispatch(setQOrder(q));
+    //     console.log(q.first)
+    //     this.props.dispatch(setCurrentQIndex(q.first.data));
+    //     }
+
+    // componentWillReceiveProps(nextProps, Object) {
+    //     if(nextProps.questions !== this.props.questions) {
+    //         console.log(this.props.questions);
+    //         let q = new Queue(this.props.questions.length);
+    //         console.log('Queue of Questions:  ', q);
+    //         this.props.dispatch(setQOrder(q));
+    //         console.log(q.first)
+    //         this.props.dispatch(setCurrentQIndex(q.first.data));
+    //     }
+    // }
+
+
     render() {
-        const questions = this.state.questions.map((question, index) =>
-            <li key={index}>{question}</li>
-        );
-        const answers = this.state.answers.map((answer, index) => 
-            <li key={index}>{answer}</li>
-        );
-        console.log('thequestion :', this.state.questions[this.state.currentQIndex]);
-        const currentQ= this.state.questions[this.state.currentQIndex];
+        console.log(this.props.questions)
+        const questions = this.props.questions.map((question, index) =>
+            <li key={index}>{question}</li>)
+
+        const answers = this.props.answers.map((answer, index) =>
+            <li key={index}>{answer}</li>)
+        
+
         return (
             <ul className="question-list">
             <Header />
                 <UserData />
-                
                 <p>Question</p>
                 <ul>
-                    {questions}
-                    <p>Matching Answers</p>
-                    {answers}
-                    <h3>{currentQ}</h3>
+                {questions}
+                </ul>
+                <p>Matching Answers</p>
+                <ul>
+                {answers}
                 </ul>
                 <GuessForm />
             </ul>
@@ -73,10 +73,12 @@ export class QuestionPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    questions: state.questions,
-    answers: state.answers,
-    currentQIndex: state.currentQIndex
+const mapStateToProps = (state, props) => ({
+    questions: state.dataFromAPI.questions,
+    answers: state.dataFromAPI.answers,
+    currentQIndex: state.dataFromAPI.currentQIndex,
+    loading: state.dataFromAPI.loading,
+    qOrder: state.dataFromAPI.qOrder 
 })
 
 export default connect(mapStateToProps)(QuestionPage);
