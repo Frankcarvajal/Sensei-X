@@ -1,9 +1,12 @@
 import * as actions from './actions';
+import Queue from './queue';
 
 const initialState = {
     questions: [],
     answers: [],
     currentQIndex: 0,
+    qOrder: {},
+    points: 0,
     loading: false
 }
 
@@ -47,6 +50,29 @@ const dataFromAPI = (state = initialState, action) => {
         return {
             ...state,
             qOrder: action.qOrder
+        }
+
+    case 'SET_Q_REQUEUE':
+        console.log('requeue called.');
+        let q1= state.qOrder;
+        q1.requeue();
+        let ci1 = q1.first.data;
+        console.log('this is q1: ', q1);
+        return {
+            ...state,
+            currentQIndex: ci1,
+            qOrder: q1
+        }
+    case 'SET_Q_ENQUEUECUT':
+        console.log('enqueue called.');
+        let q2= state.qOrder;
+        q2.enqueueCut();
+        let ci2 = q2.first.data;
+        console.log('this is q2: ', q2);
+        return {
+            ...state,
+            currentQIndex: ci2,
+            qOrder: q2
         }
 
     default: return state

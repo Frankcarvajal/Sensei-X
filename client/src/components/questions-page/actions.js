@@ -12,6 +12,15 @@ export const setQOrder = qOrder => ({
     qOrder
 });
 
+export const SET_Q_REQUEUE = "SET_Q_REQUEUE";
+export const setQRequeue = () => ({
+    type: SET_Q_REQUEUE
+})
+
+export const SET_Q_ENQUEUECUT = "SET_Q_ENQUEUECUT";
+export const setQEnqueueCut = () => ({
+    type: SET_Q_ENQUEUECUT
+})
 
 const fetchCurrentQIndex = () => ({
     type: 'FETCH_CURRENT_Q_INDEX'
@@ -25,6 +34,17 @@ const recieveDataFromAPI = (data) => ({
   type: 'RECIEVE_DATA',
   data
 })
+
+export const checkAnswer = () => {
+  return dispatch => {
+    console.log('checkAnswer CALLED.');
+    if(this.state.guessForm.guesses[0] === this.state.dataFromAPI.answers[this.state.dataFromAPI.currentQIndex]) {
+        console.log('correct!');
+    }else {
+        console.log('incorrect');
+    }
+  }
+}
 
 export const fetchDataFromApi = () => {
   return dispatch => {

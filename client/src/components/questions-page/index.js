@@ -15,36 +15,16 @@ export class QuestionPage extends React.Component {
         this.props.dispatch(fetchDataFromApi());
     }
 
-    // componentWillReceiveProps(nextProps: Object) {
-        
-    //     console.log(this.props.questions);
-    //     let q = new Queue(this.props.questions.length);
-    //     console.log('Queue of Questions:  ', q);
-    //     this.props.dispatch(setQOrder(q));
-    //     console.log(q.first)
-    //     this.props.dispatch(setCurrentQIndex(q.first.data));
-    // }
-
-    // componentDidUpdate() {
-    //     console.log(this.props.questions);
-    //     let q = new Queue(this.props.questions.length);
-    //     console.log('Queue of Questions:  ', q);
-    //     this.props.dispatch(setQOrder(q));
-    //     console.log(q.first)
-    //     this.props.dispatch(setCurrentQIndex(q.first.data));
-    //     }
-
-    // componentWillReceiveProps(nextProps, Object) {
-    //     if(nextProps.questions !== this.props.questions) {
-    //         console.log(this.props.questions);
-    //         let q = new Queue(this.props.questions.length);
-    //         console.log('Queue of Questions:  ', q);
-    //         this.props.dispatch(setQOrder(q));
-    //         console.log(q.first)
-    //         this.props.dispatch(setCurrentQIndex(q.first.data));
-    //     }
-    // }
-
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.questions !== this.props.questions) {
+            console.log(nextProps.questions);
+            let q = new Queue(nextProps.questions.length);
+            console.log('Queue of Questions:  ', q);
+            this.props.dispatch(setQOrder(q));
+            console.log(q.first)
+            this.props.dispatch(setCurrentQIndex(q.first.data));
+        }
+    }
 
     render() {
         console.log(this.props)
@@ -60,13 +40,14 @@ export class QuestionPage extends React.Component {
             <Header />
                 <UserData />
                 <p>Question</p>
-                <ul>
+                {/*<ul>
                 {questions}
                 </ul>
                 <p>Matching Answers</p>
                 <ul>
                 {answers}
-                </ul>
+                </ul>*/}
+                <h1>{this.props.questions[this.props.currentQIndex]}</h1>
                 <GuessForm />
             </ul>
         );

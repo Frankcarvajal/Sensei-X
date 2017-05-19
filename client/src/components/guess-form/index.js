@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {makeGuess} from './actions';
+import {setQEnqueueCut, setQRequeue} from '../questions-page/actions'
+import {checkAnswer} from '../questions-page/actions'
+import Queue from '../questions-page/queue'
 
 export class GuessForm extends React.Component {
     submitGuess(event) {
@@ -8,6 +11,13 @@ export class GuessForm extends React.Component {
         const value = this.input.value;
         this.props.dispatch(makeGuess(value));
         this.input.value = '';
+        if(value === this.props.answers[this.props.currentQIndex]) {
+            this.props.dispatch(setQRequeue());
+            alert('correct!');
+        }else {
+            this.props.dispatch(setQEnqueueCut());
+            alert('try again later!');
+        }
     }
 
     render() {
@@ -24,7 +34,10 @@ export class GuessForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    guesses: state.guesses
+    guesses: state.guesses,
+    answers: state.dataFromAPI.answers,
+    qOrder: state.dataFromAPI.qOrder,
+    currentQIndex: state.dataFromAPI.currentQIndex
 })
 
 export default connect(mapStateToProps)(GuessForm);
