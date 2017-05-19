@@ -1,11 +1,14 @@
 import React from 'react';
+import { connect } from "react-redux"
 import * as Cookies from 'js-cookie';
-import Logout from '../logout';
+// import Logout from '../logout';
 import UserData from '../userdata';
-import Header from '../header'
+import Header from '../header';
+import Queue from './queue';
+import { setCurrentQIndex, setQOrder } from "./actions";
 import './index.css';
 
-export default class QuestionPage extends React.Component {
+class QuestionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,7 +43,11 @@ export default class QuestionPage extends React.Component {
                 questions: inQuestions,
                 answers: inAnswers
             })
-        }
+            let q = new Queue(questions.langs.length);
+            console.log('Queue of Questions:  ', q);
+            this.props.dispatch(setQOrder(q));
+            this.props.dispatch(setCurrentQIndex(q.first.data));
+            }
         );
     }
 
@@ -52,8 +59,7 @@ export default class QuestionPage extends React.Component {
         const answers = this.state.answers.map((answer, index) => 
             <li key={index}>{answer}</li>
         );
-        console.log('thequestion :', this.state.questions[this.state.currentQIndex]);
-        const currentQ= this.state.questions[this.state.currentQIndex];
+        const currentQ= this.state.questions[this.props.currentQIndex];
         return (
             <ul className="question-list">
             <Header />
@@ -75,3 +81,11 @@ export default class QuestionPage extends React.Component {
         );
     }
 }
+
+const mapStateToProps = function(state, prop) {
+  return { 
+      currentQIndex: state.questionsReducer.currentQIndex, 
+      qOrder: state.questionsReducer.qOrder }
+}
+
+export default connect(mapStateToProps)(QuestionPage);
