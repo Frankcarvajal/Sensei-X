@@ -41,7 +41,7 @@ export class UserData extends React.Component {
         let name = this.state.name;
 
         return (
-            <ul className="user-list three columns">
+            <ul className="user-list two columns">
                 <p>{gitHubHandle}<span>{name}</span></p>
                 <ul className="userscores">
                     <li>Score: {this.props.points}</li>

@@ -27,9 +27,9 @@ export const addPoint = () => ({
     type: ADD_POINT
 })
 
-// const fetchCurrentQIndex = () => ({
-//     type: 'FETCH_CURRENT_Q_INDEX'
-// })
+const fetchCurrentQIndex = () => ({
+    type: 'FETCH_CURRENT_Q_INDEX'
+})
 
 const requestDataFromAPI = () => ({
   type: 'REQUEST_DATA'

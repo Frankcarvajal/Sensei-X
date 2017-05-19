@@ -1,26 +1,28 @@
 .loginlink {
     text-decoration: none;
     cursor: pointer;
-    color: #bf0404;
-    padding-left: 30%;
+    color: #fff;
     position: relative;
-    display: inline-block;
-    margin: 15px 25px;
+    display: block;
+    margin: 45px 25px;
     outline: none;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-weight: 400;
+    font-weight: 600;
     text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
     font-size: 1.35em;
+    text-align: center;
 }
 
 .what {
-    padding-left: 25%;
-    font-size: 30px;
+    text-align: center;
+    font-size: 19px;
+    position: relative;
+    top: -40px;
 }
 
 .loginlogo {
-    width: 60%;
+    width: 50%;
     padding-top: 100px;
     padding-bottom: 50px;
     padding-left: 25%;

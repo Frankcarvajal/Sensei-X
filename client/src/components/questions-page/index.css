@@ -7,3 +7,12 @@
 .userscores li {
     list-style: none;
 }
+
+.game-block {
+    padding-left: 25px;
+    text-align: center;
+}
+.game-block h1 {
+    font-size: 5em;
+    font-family: "Sawarabi Mincho"; 
+}

@@ -1,0 +1,22 @@
+#guessButton.button {
+      background: #7a0000;
+  background-image: -webkit-linear-gradient(top, #7a0000, #54031a);
+  background-image: -moz-linear-gradient(top, #7a0000, #54031a);
+  background-image: -ms-linear-gradient(top, #7a0000, #54031a);
+  background-image: -o-linear-gradient(top, #7a0000, #54031a);
+  background-image: linear-gradient(to bottom, #7a0000, #54031a);
+  color: #fff;
+  border-color: #3c0011;
+}
+
+input#userGuess {
+    background: none;
+    border: none;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    margin-right: 25px;
+}
+input#userGuess::placeholder {
+    color: #f7f7f7;
+    
+}

@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {makeGuess} from './actions';
 import {setQEnqueueCut, setQRequeue, addPoint} from '../questions-page/actions';
-import {addCorrect, addWrong} from '../userdata/actions'
+import {addCorrect, addWrong} from '../userdata/actions';
+import './index.css';
 
 export class GuessForm extends React.Component {
     submitGuess(event) {
