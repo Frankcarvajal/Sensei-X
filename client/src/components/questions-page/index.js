@@ -46,8 +46,10 @@ export class QuestionPage extends React.Component {
                 <ul>
                 {answers}
                 </ul>*/}
-                <h1>{this.props.questions[this.props.currentQIndex]}</h1>
-                <GuessForm />
+                <div className="game-block eight columns">
+                    <h1>{this.props.questions[this.props.currentQIndex]}</h1>
+                    <GuessForm />
+                </div>
             </ul>
         );
     }

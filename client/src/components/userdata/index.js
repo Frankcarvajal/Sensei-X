@@ -36,16 +36,16 @@ export class UserData extends React.Component {
 
     render() {
         let gitHubHandle = this.state.gitHubHandle;
-        let points = this.props.points;
+        // let points = this.props.points;
         let name = this.state.name;
 
         return (
-            <ul className="user-list">
+            <ul className="user-list three columns">
                 <p>{gitHubHandle}<span>{name}</span></p>
                 <ul className="userscores">
-                    <li>Score: {points}</li>
-                    <li>Correct </li>
-                    <li>Wrong </li>
+                    <li>Score: {this.props.points}</li>
+                    <li>Correct {this.props.correct} </li>
+                    <li>Wrong {this.props.wrong}</li>
                 </ul>
             </ul>
         );
@@ -53,7 +53,9 @@ export class UserData extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    points: state.dataFromAPI.points
+    points: state.dataFromAPI.points,
+    correct: state.UserData.correct,
+    wrong: state.UserData.wrong
 
 })
 
